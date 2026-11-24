@@ -1,4 +1,7 @@
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#2f5a6a">
 <title>Suhail · GPSSA at GITEX · New flow · Wrapped</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2013,6 +2016,173 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
 #ws .s-range .dlt .wsp svg { width: 26px; height: 26px; }
 #ws .s-range .dlt .wsp.no i { background: #c21126; }
 #ws .s-range .dlt .wsp.ok i { background: #0f7a52; }
+
+/* ================= mobile: a taller canvas, content placed in it ================= */
+#stage { --ex: 0px; --st: 0px; --sb: 0px; --hk: 1; --sky: 0px; }
+html.mob body { padding: 0; background: #2f5a6a; }
+/* nothing shows until the page has been fitted to the screen */
+#frame { opacity: 0; } html.ready #frame { opacity: 1; transition: opacity .6s ease; }
+html:not(.mob) #stage { border-radius: 64px; box-shadow: 0 0 0 1px rgba(255,255,255,.06); }
+html.mob #demo { display: none; }
+/* the conversation: the photo takes the extra height, the words and the voice button sit below it */
+#stage > *:not(#ws):not(#hero):not(#sbg):not(#dk):not(#sheet):not(.top):not(#panel):not(#bar) { margin-top: calc(var(--ex) / 2) !important; }
+#stage.full > *:not(#ws):not(#hero):not(#sbg):not(#dk):not(#sheet):not(.top):not(#bar):not(#panel) { margin-top: var(--ex) !important; }
+#stage.full > #panel { margin-top: var(--ex) !important; }
+#stage > #bar { margin-top: calc(var(--ex) - var(--sb) * .6) !important; }
+#stage.full #hero { height: calc(880px + var(--ex)); --hh: calc(880px + var(--ex)); }
+#stage:not(.full) #hero { margin-top: calc(var(--ex) / 2); }
+/* the portrait stays anchored at the bottom of the taller photo; the sky above it continues */
+#stage.full #hero { background-size: calc(1080px * var(--hk)) calc(880px * var(--hk)); background-position: 50% 100%; background-color: #3e6a8a; }
+#stage.full #hero::before { content: ""; position: absolute; left: 0; top: 0; width: 1080px; height: calc(var(--sky) + 2px); background: linear-gradient(90deg, rgb(79,115,151), rgb(71,111,147) 25%, rgb(55,104,144) 50%, rgb(56,100,139) 75%, rgb(54,98,133)); }
+/* the portrait grows with the photo, centred and anchored at its foot */
+#stage.full #hero canvas { left: calc(540px - 423px * var(--hk)) !important; top: calc(var(--sky) + 57px * var(--hk)) !important; width: calc(845px * var(--hk)) !important; height: calc(845px * var(--hk)) !important; }
+/* no transition plays while the canvas is being fitted to the screen */
+#stage.fitting, #stage.fitting * { transition: none !important; }
+#stage > .top { margin-top: var(--st) !important; }
+/* the stories: content in the middle, actions at the bottom, navigation under the status bar */
+#ws .wsc > *:not(.wbg) { margin-top: calc(var(--ex) / 2) !important; }
+#ws .wsc > .wnote, #ws .wsc > .wbtn:not(.bbk2), #ws .wsc > .wsrc { margin-top: calc(var(--ex) - var(--sb) * .6) !important; }
+#ws .wtop { margin-top: var(--st); }
+
+#ws .wbk { position: absolute; left: 48px; top: 60px; width: 108px; height: 108px; border-radius: 50%; box-shadow: inset 0 0 0 2px rgba(255,255,255,.45); display: grid; place-items: center; pointer-events: auto; transition: background-color .5s ease, box-shadow .5s ease, opacity .5s ease, transform .3s ease; }
+#ws .wbk svg { width: 30px; height: 30px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; transition: stroke .5s ease; }
+#ws .wbk:active { transform: scale(.94); }
+#ws[data-tone="light"] .wbk { background: rgba(255,255,255,.5); box-shadow: inset 0 0 0 2px rgba(26,22,20,.18); }
+#ws[data-tone="light"] .wbk svg { stroke: #1a1614; }
+#ws .wx { left: auto; right: 48px; }
+#ws .wpg { left: 186px; width: 708px; }
+#ws[data-k="intro"] .wbk { opacity: 0; pointer-events: none; }
+#ws[dir="rtl"] .wbk svg { transform: scaleX(-1); }
+
+/* the tutorial: one gesture, one line, one button */
+#ws .wtut { position: absolute; inset: 0; z-index: 40; opacity: 0; visibility: hidden; pointer-events: none; background: rgba(12,26,32,.6); -webkit-backdrop-filter: blur(22px); backdrop-filter: blur(22px); transition: opacity .5s ease, visibility 0s linear .5s; color: #fff; }
+#ws .wtut.on { opacity: 1; visibility: visible; pointer-events: auto; transition: opacity .7s ease, visibility 0s; }
+#ws .wtut .tmid { position: absolute; left: 120px; right: 120px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; align-items: center; text-align: center; }
+#ws .wtut .tc { position: relative; width: 128px; height: 128px; border-radius: 50%; display: grid; place-items: center; background: #fff; box-shadow: 0 24px 50px -20px rgba(0,0,0,.4); margin-bottom: 64px; }
+#ws .wtut .tc svg { position: relative; width: 40px; height: 40px; fill: none; stroke: #1a1614; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; }
+#ws .wtut .rp { position: absolute; inset: 0; border-radius: 50%; border: 2.5px solid rgba(255,255,255,.75); opacity: 0; }
+#ws .wtut.on .rp { animation: tutRip 2.4s cubic-bezier(.2,.6,.3,1) .8s infinite; }
+#ws .wtut.on .rp.r2 { animation-delay: 1.2s; }
+@keyframes tutRip { 0% { transform: scale(1); opacity: .8; } 100% { transform: scale(2); opacity: 0; } }
+#ws .wtut.on .tc { animation: tutTap 2.4s cubic-bezier(.3,.7,.3,1) .8s infinite; }
+@keyframes tutTap { 0%, 100% { transform: scale(1); } 8% { transform: scale(.9); } 20% { transform: scale(1); } }
+#ws .wtut .tt { margin: 0; font-size: 56px; line-height: 66px; font-weight: 400; letter-spacing: -.03em; text-wrap: balance; }
+#ws .wtut .ts { margin: 22px 0 0; font-size: 32px; line-height: 42px; color: rgba(255,255,255,.72); text-wrap: balance; }
+#ws .wtut .tok { left: 290px; top: auto; bottom: calc(150px + var(--sb) * .6); width: 500px; height: 128px; font-size: 38px; background: rgba(255,255,255,.16); color: #fff; box-shadow: inset 0 0 0 2px rgba(255,255,255,.55); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+#ws .wtut .tmid > *, #ws .wtut .tok { opacity: 0; translate: 0 24px; transition: opacity .6s ease, translate 1s cubic-bezier(.16,1,.3,1); }
+#ws .wtut.on .tmid > *, #ws .wtut.on .tok { opacity: 1; translate: 0 0; }
+#ws .wtut.on .tt { transition-delay: .12s; } #ws .wtut.on .ts { transition-delay: .2s; } #ws .wtut.on .tok { transition-delay: .35s; }
+#ws[dir="rtl"] .wtut .tc svg { transform: scaleX(-1); }
+
+/* merge · how many years: the blue of the facts, the card in glass */
+#ws .s-myears .wlab, #ws .s-myears .byl, #ws .s-myears .hd.dk { color: #fff; }
+#ws .s-myears .bchips button { color: #fff; background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.45); box-shadow: inset 0 1px 0 rgba(255,255,255,.35); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
+#ws .s-myears .bchips button.on { background: #fff; color: #1a1614; border-color: #fff; box-shadow: 0 18px 40px -18px rgba(10,30,40,.5); }
+#ws .s-myears .bcard { background: linear-gradient(180deg, rgba(255,255,255,.2), rgba(255,255,255,.08)); box-shadow: inset 0 0 0 2px rgba(255,255,255,.35), inset 0 2px 0 rgba(255,255,255,.5), 0 60px 100px -60px rgba(10,30,40,.55); -webkit-backdrop-filter: blur(30px) saturate(1.2); backdrop-filter: blur(30px) saturate(1.2); }
+#ws .s-myears .bst small { color: rgba(255,255,255,.7); }
+#ws .s-myears .bst > div > b { color: #fff; }
+#ws .s-myears .bst > div > b .u { color: rgba(255,255,255,.7); }
+#ws .s-myears .bst em { color: rgba(255,255,255,.85); }
+#ws .s-myears .bst .e2 i { background: #fff; }
+#ws .s-myears .bst > div + div { border-left-color: rgba(255,255,255,.2); }
+#ws[dir="rtl"] .s-myears .bst > div + div { border-right-color: rgba(255,255,255,.2); }
+#ws .s-myears .bch .grd line { stroke: rgba(255,255,255,.14); }
+#ws .s-myears .bch .grd line.vx { stroke: rgba(255,255,255,.1); }
+#ws .s-myears .bch .grd line:first-of-type { stroke: rgba(255,255,255,.45); }
+#ws .s-myears .bch text { fill: rgba(255,255,255,.72); }
+#ws .s-myears .bch .fpl { fill: rgba(255,255,255,.6); }
+#ws .s-myears #bgamerge stop { stop-color: #fff; }
+#ws .s-myears #bgamerge stop:first-child { stop-opacity: .3; } #ws .s-myears #bgamerge stop:last-child { stop-opacity: .04; }
+#ws .s-myears #bgbmerge stop { stop-color: #fff; }
+#ws .s-myears #bgbmerge stop:first-child { stop-opacity: .8; } #ws .s-myears #bgbmerge stop:last-child { stop-opacity: .14; }
+#ws .s-myears .bch .c0 { stroke: rgba(255,255,255,.7); }
+#ws .s-myears .bch .c1 { stroke: #fff; filter: drop-shadow(0 6px 12px rgba(10,30,40,.35)); }
+#ws .s-myears .bch .td { stroke: #fff; }
+#ws .s-myears .bch .tdd { fill: #2f5a6a; stroke: #fff; }
+#ws .s-myears .bch .tdp rect { fill: rgba(255,255,255,.2); stroke: rgba(255,255,255,.6); stroke-width: 2; }
+#ws .s-myears .bch .ed { fill: #2f5a6a; stroke: #fff; }
+#ws .s-myears .bch .eh { fill: rgba(255,255,255,.28); }
+#ws .s-myears .bch .pin rect { fill: #fff; filter: drop-shadow(0 10px 14px rgba(10,30,40,.3)); }
+#ws .s-myears .bch .pin text { fill: #2f5a6a; }
+
+/* ================= type floor for a phone ================= */
+#lang button { font-size: 32px; } #lang button.arb { font-size: 30px; }
+#conv .n { font-size: 32px; width: 44px; }
+#atags { top: 770px; height: 86px; }
+#atags .atg { height: 72px; line-height: 69px; padding: 0 30px; border-radius: 36px; font-size: 30px; }
+#hints.grp-on .gl { font-size: 27px; letter-spacing: .1em; }
+#hints.many .opt { font-size: 34px; }
+#stage .steps .t { font-size: 36px; } #stage .steps .s, .lite .steps .s { font-size: 30px; }
+#stage #sim { font-size: 28px; }
+.mailc .mh b { font-size: 34px; } .mailc .mh small { font-size: 30px; } .mailc p { font-size: 32px !important; line-height: 1.4 !important; } .mailc .att { font-size: 30px !important; }
+#ws .s-intro .wlab.c { font-size: 34px; } #ws .s-intro .wbtn.blk { font-size: 34px; }
+#ws .s-years .ring .rc { font-size: 30px; }
+#ws .s-grows .ya, #ws .s-grows .xa { font-size: 28px; }
+#ws .s-grows .knob .tip { font-size: 30px; }
+#ws .qf .cu { font-size: 30px; }
+#ws .s-range .rto { font-size: 30px; }
+#ws .s-range .wnote.dlt p { font-size: 32px; }
+#ws .s-range .wnote.dlt { height: 92px; }
+#ws .s-paths .bub.sm .bin b { font-size: 32px; }
+#ws .bst small { font-size: 30px; }
+#ws .bst em { font-size: 29px; line-height: 36px; }
+#ws .bch text { font-size: 28px; }
+#ws .bch .fpl { font-size: 25px; }
+#ws .bch .tdp text, #ws .bch .plp text { font-size: 25px; }
+#ws .bch .pin text { font-size: 34px; }
+#ws .bqc small { font-size: 32px; line-height: 40px; }
+#ws .dcard { padding-top: 76px; }
+#ws .dic { width: 168px; height: 168px; margin-bottom: 44px; }
+#ws .dcard p { font-size: 32px; line-height: 44px; margin-top: 26px; }
+#ws .s-well .wsrc { font-size: 26px; line-height: 34px; left: 90px; right: 90px; }
+#ws .s-future .paint small { font-size: 32px; }
+#ws .pst3 small { font-size: 30px; }
+#ws .s-well .wsrc { top: 1616px; }
+/* charts: one small step up, the hierarchy kept (value 64 > figures 38 > text 31-32 > caps 27) */
+#ws .bst small { font-size: 32px; }
+#ws .bst em { font-size: 31px; line-height: 38px; }
+#ws .bch text { font-size: 31px; }
+#ws .bch .fpl { font-size: 27px; }
+#ws .bch .tdp text, #ws .bch .plp text { font-size: 27px; }
+#ws .bch .pin text { font-size: 38px; }
+#ws .s-grows .ya, #ws .s-grows .xa { font-size: 31px; white-space: nowrap; }
+#ws .s-grows .xa.yt { margin-left: -6px; }
+#ws .s-grows .knob .tip { font-size: 33px; }
+
+/* next steps: the plus and the activated tag at a size a thumb and an eye can find */
+#ws .bub .pl { margin-top: 26px; width: 64px; height: 64px; }
+#ws .bub .pl svg { width: 28px; height: 28px; stroke-width: 2.4; }
+#ws .bub .act { gap: 10px; margin-top: 22px; padding: 12px 26px 12px 20px; border-radius: 30px; font-size: 29px; }
+#ws .bub .act svg { width: 28px; height: 28px; }
+#ws .bub.sm .pl { margin-top: 18px; width: 56px; height: 56px; }
+
+#ws .wx svg { width: 30px; height: 30px; }
+.mailc .att svg { width: 28px; height: 28px; }
+#ws .s-well .wsrc { font-size: 28px; line-height: 36px; }
+
+/* the back arrow only lives inside a next step, where it closes the step and returns to the four bubbles */
+#ws:not(.inbr) .wbk { opacity: 0; pointer-events: none; }
+#ws:not(.inbr) .wpg { left: 48px; width: 846px; }
+#ws .wpg { transition: opacity .5s ease, left .5s ease, width .5s ease; }
+
+#ws .s-range .wnote.dlt { left: 80px; right: auto; margin: 0; top: 1500px; width: 920px; height: auto; min-height: 0; padding: 44px 64px 46px 49px; gap: 30px; align-items: flex-start; border-radius: 28px; background: rgba(255,255,255,.82); box-shadow: 0 30px 60px -40px rgba(14,40,50,.45); }
+#ws .s-range .wnote.dlt .wsp { width: 72px; height: 72px; flex: none; margin-top: -4px; }
+#ws .s-range .wnote.dlt .dtx { flex: 1; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+#ws .s-range .wnote.dlt .dlab { font-size: 26px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #a3142a; }
+#ws .s-range .wnote.dlt p { flex: none; white-space: normal; font-size: 34px; line-height: 48px; letter-spacing: -.02em; color: #1a1614; text-wrap: pretty; }
+#ws .s-range .wnote.dlt p b { font-weight: 600; }
+
+#ws .s-range .rhd { top: 620px; }
+#ws .s-range .rsal { top: 662px; }
+#ws .wsc > .wnote.dlt { margin-top: calc(var(--ex) / 2) !important; }
+#ws .s-range .wnote.dlt { left: 321px; width: 438px; top: 1341px; min-height: 458px; height: auto; padding: 80px 34px 64px; flex-direction: column; align-items: center; justify-content: flex-start; gap: 30px; border-radius: 24px;
+  background: linear-gradient(180deg, rgba(234,238,240,.96), rgba(240,243,243,.92)); box-shadow: 0 40px 80px -50px rgba(14,40,50,.45); }
+#ws .s-range .wnote.dlt .wsp { width: 112px; height: 112px; margin: 0; }
+#ws .s-range .wnote.dlt p { text-align: center; font-size: 30px; line-height: 41px; font-weight: 400; letter-spacing: -.015em; color: #1a1614; text-wrap: balance; }
+#ws .s-range .wnote.dlt p b { font-weight: 600; }
+
+#ws .s-range .rsal::first-letter { text-transform: none; }
+#ws .s-range .wnote.dlt .wsp .spk { width: 58px; height: 58px; }
 </style>
 
 <div id="frame"><div id="holder"><div id="stage" class="full">
@@ -2070,7 +2240,21 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
   var stage = $('stage'), holder = $('holder');
-  function fit() { var s = Math.min((window.innerWidth - 32) / 1080, (window.innerHeight - 16) / 1920); stage.style.transform = 'scale(' + s + ')'; holder.style.width = 1080 * s + 'px'; holder.style.height = 1920 * s + 'px'; }
+  /* the canvas keeps a 1080 width and grows taller to fill a phone; on a wide screen it shows as an iPhone-shaped page */
+  var SAFE = document.createElement('div'); SAFE.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)'; document.body.appendChild(SAFE);
+  function fit() {
+    var vw = window.innerWidth, vh = window.innerHeight, mob = vh > vw, H, s;
+    if (mob) { H = Math.max(1920, Math.min(2520, 1080 * vh / vw)); s = Math.min(vw / 1080, vh / H); }
+    else { H = 2338; s = Math.min((vw - 32) / 1080, (vh - 32) / H); }
+    var cs = getComputedStyle(SAFE), st0 = mob ? parseFloat(cs.paddingTop) / s : 0, sb0 = mob ? parseFloat(cs.paddingBottom) / s : 0;
+    document.documentElement.classList.toggle('mob', mob);
+    stage.style.height = H + 'px'; stage.style.setProperty('--ex', (H - 1920) + 'px'); stage.style.setProperty('--st', Math.round(st0) + 'px'); stage.style.setProperty('--sb', Math.round(sb0) + 'px');
+    window.__ex = H - 1920;
+    var hk = Math.min(1.36, (880 + H - 1920) / 880); stage.style.setProperty('--hk', hk.toFixed(4)); stage.style.setProperty('--sky', Math.max(0, Math.round(880 + H - 1920 - 880 * hk)) + 'px');
+    if (!document.documentElement.classList.contains('ready')) requestAnimationFrame(function () { document.documentElement.classList.add('ready'); });
+    stage.classList.add('fitting'); requestAnimationFrame(function () { requestAnimationFrame(function () { stage.classList.remove('fitting'); }); });
+    stage.style.transform = 'scale(' + s + ')'; holder.style.width = 1080 * s + 'px'; holder.style.height = H * s + 'px';
+  }
   window.addEventListener('resize', fit); fit();
 
   /* ---------- model: UAE pension rules from the source prototype ---------- */
@@ -2101,7 +2285,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
   var DOING = [E('Reading', 'القراءة'), E('Gardening', 'الزراعة'), E('Walking', 'المشي'), E('Relaxing', 'الاسترخاء')];
   /* the good day: one flat list, pick as many as you like */
   var DREAM = [E('In the garden', 'في الحديقة'), E('By the sea', 'عند البحر'), E('With family and friends', 'مع العائلة والأصدقاء'), E('Reading', 'القراءة'), E('Relaxing at home', 'الاسترخاء في البيت'), E('Travelling', 'السفر')];
-  var DREAMP = [E('a garden', 'حديقة'), E('the sea', 'البحر'), E('family and friends around you', 'العائلة والأصدقاء حولك'), E('a good book', 'كتاب جيد'), E('slow days at home', 'أيام هادئة في البيت'), E('new places to see', 'أماكن جديدة تراها')];
+  var DREAMP = [E('in your garden', 'في حديقتك'), E('by the sea', 'عند البحر'), E('with family and friends', 'مع العائلة والأصدقاء'), E('with a good book', 'مع كتاب جيد'), E('relaxing at home', 'مسترخياً في البيت'), E('travelling', 'في السفر')];
   var DREAMIMG = [0, 1, 0, 3, 3, 4];
   var GROUPS = [{ k: 'dW', t: E('Where', 'أين'), o: WHERE }, { k: 'dP', t: E('With who', 'مع من'), o: WHO }, { k: 'dD', t: E('Doing', 'ماذا تفعل'), o: DOING }];
   var YEARS = [[E('Just starting', 'في البداية'), 2], [E('About 10 years', 'نحو 10 سنوات'), 10], [E('About 20 years', 'نحو 20 سنة'), 20], [E('30 or more', '30 أو أكثر'), 30]];
@@ -2109,7 +2293,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
   var SALARY = [E('20k to 30k', 'من 20 إلى 30 ألفاً'), E('30k to 40k', 'من 30 إلى 40 ألفاً'), E('40k to 50k', 'من 40 إلى 50 ألفاً')];
   var SPEND = [E('15 - 25K', '15 - 25 ألفاً'), E('25K - 40K', '25 - 40 ألفاً'), E('40K+', 'أكثر من 40 ألفاً')];
   var SPENDV = [20000, 32500, 45000];
-  var SECT = [E('Public sector', 'القطاع الحكومي'), E('Private sector', 'القطاع الخاص')];
+  var SECT = [E('Federal government', 'الحكومة الاتحادية'), E('Local government', 'حكومة محلية'), E('Private sector', 'القطاع الخاص')];
   var ESS = [E('Under AED 10k', 'أقل من 10 آلاف درهم'), E('10k to 20k', 'من 10 إلى 20 ألفاً'), E('Over 20k', 'أكثر من 20 ألفاً')];
   var ESSV = [7000, 15000, 25000];
   var COM = [E('Simple · under 5k', 'بسيط · أقل من 5 آلاف'), E('Comfortable · 5k to 15k', 'مريح · من 5 إلى 15 ألفاً'), E('Luxury · over 15k', 'فاخر · أكثر من 15 ألفاً')];
@@ -2118,22 +2302,22 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
 
   var STEPS = [
     /* 1 · welcome */
-    { id: 'attract', mode: 'full', lead: true, ai: E('Hayyak, and welcome to GITEX. Come and sit with me for a minute, and let’s plan your future together.', 'حيّاك، وأهلاً بك في جيتكس. اجلس معي دقيقة، ولنخطط لمستقبلك معاً.'), still: true, hints: [{ t: E('Hello, Suhail', 'مرحباً يا سهيل') }], auto: E('Hello, Suhail!', 'مرحباً يا سهيل!'), wait: 7000 },
-    { id: 'demo', mode: 'full', lead: true, hold: 1500, ai: E('Let’s start. Keep in mind that this is a demo and we are not using any real data.', 'لنبدأ. تذكّر أن هذه نسخة تجريبية، ولا نستخدم أي بيانات حقيقية.') },
+    { id: 'attract', mode: 'full', lead: true, ai: E('Hi, I’m Suhail, your retirement guide. I’m here to help you understand your pension options and plan for the future with confidence.', 'مرحباً، أنا سهيل، مرشدك للتقاعد. أنا هنا لأساعدك على فهم خيارات معاشك والتخطيط لمستقبلك بثقة.'), still: true, hints: [{ t: E('Hello, Suhail', 'مرحباً يا سهيل') }], auto: E('Hello, Suhail!', 'مرحباً يا سهيل!'), wait: 7000 },
+    { id: 'demo', mode: 'full', lead: true, hold: 1500, ai: E('Before we begin, please note that all figures and examples shown are for demonstration purposes only and do not reflect your actual pension records.', 'قبل أن نبدأ، يُرجى العلم أن جميع الأرقام والأمثلة المعروضة لأغراض العرض فقط، ولا تعكس سجلات معاشك الفعلية.') },
     /* 2 · four light questions, each one heard before the next */
-    { id: 'dream', mode: 'full', lead: true, groups: true, ai: E('Hello, I’m Suhail. How do you imagine a day in your future after retirement?', 'مرحباً، أنا سهيل. كيف تتخيّل يوماً من أيامك بعد التقاعد؟'), auto: E('With family and friends, by the sea.', 'مع العائلة والأصدقاء، عند البحر.'), wait: 6500 },
+    { id: 'dream', mode: 'full', lead: true, groups: true, ai: E('Let’s start with a simple question. What would you like your retirement years to look like?', 'لنبدأ بسؤال بسيط. كيف تودّ أن تكون سنوات تقاعدك؟'), auto: E('With family and friends, by the sea.', 'مع العائلة والأصدقاء، عند البحر.'), wait: 6500 },
     { id: 'heard1', mode: 'full', lead: true, hold: 1600, mk: function () { return ACK.dream(); } },
-    { id: 'years', mode: 'full', lead: true, ai: E('How long have you been working so far?', 'منذ متى وأنت تعمل حتى الآن؟'), hints: YEARS.map(function (y, i) { return { t: y[0], set: { yi: i } }; }), auto: E('About twenty years.', 'نحو عشرين سنة.'), autoSet: { yi: 2 } },
+    { id: 'years', mode: 'full', lead: true, ai: E('To help me understand your pension journey, how many years have you worked so far?', 'لأفهم مسيرتك نحو التقاعد، كم سنة عملت حتى الآن؟'), hints: YEARS.map(function (y, i) { return { t: y[0], set: { yi: i } }; }), auto: E('About twenty years.', 'نحو عشرين سنة.'), autoSet: { yi: 2 } },
     { id: 'heard2', mode: 'full', lead: true, hold: 1400, tag: function () { return ['yrs', YEARS[st.yi][0]]; }, mk: function () { return ACK.years[st.yi]; } },
-    { id: 'salary', mode: 'full', lead: true, ai: E('Roughly, what is your monthly contributable salary? A range is fine.', 'تقريباً، كم راتبك الشهري الخاضع للاشتراك؟ يكفي نطاق تقريبي.'), hints: SALARY.map(function (b, i) { return { t: b, set: { si: i } }; }), auto: E('Between twenty and thirty thousand.', 'بين عشرين وثلاثين ألفاً.'), autoSet: { si: 0 } },
+    { id: 'salary', mode: 'full', lead: true, ai: E('What is your current monthly contributable salary?', 'كم راتبك الشهري الحالي الخاضع للاشتراك؟'), hints: SALARY.map(function (b, i) { return { t: b, set: { si: i } }; }), auto: E('Between twenty and thirty thousand.', 'بين عشرين وثلاثين ألفاً.'), autoSet: { si: 0 } },
     { id: 'heard4', mode: 'full', lead: true, hold: 1400, tag: function () { return ['sal', E('AED ' + SALARY[st.si].en, SALARY[st.si].ar + ' درهم')]; }, mk: function () { return ACK.salary[st.si]; } },
-    { id: 'sector', mode: 'full', lead: true, ai: E('Do you work in the public or the private sector?', 'هل تعمل في القطاع الحكومي أم الخاص؟'), hints: SECT.map(function (b, i) { return { t: b, set: { sc: i } }; }), auto: E('The private sector.', 'القطاع الخاص.'), autoSet: { sc: 1 } },
+    { id: 'sector', mode: 'full', lead: true, ai: E('Which sector do you currently work in?', 'في أي قطاع تعمل حالياً؟'), hints: SECT.map(function (b, i) { return { t: b, set: { sc: i } }; }), auto: E('The private sector.', 'القطاع الخاص.'), autoSet: { sc: 2 } },
     { id: 'heard3', mode: 'full', lead: true, hold: 1600, tag: function () { return ['sec', SECT[st.sc]]; }, mk: function () { return ACK.sector[st.sc]; } },
     { id: 'ess', mode: 'full', lead: true, ai: E('Roughly, what do you spend each month on the essentials? Think schooling, your mortgage or rent, and other payments.', 'تقريباً، كم تنفق شهرياً على الأساسيات؟ مثل الدراسة، والقرض العقاري أو الإيجار، والأقساط الأخرى.'), hints: ESS.map(function (b, i) { return { t: b, set: { ei: i } }; }), auto: E('Between ten and twenty thousand.', 'بين عشرة وعشرين ألفاً.'), autoSet: { ei: 1 } },
     { id: 'heard5', mode: 'full', lead: true, hold: 1400, tag: function () { return ['ess', E('Essentials · ' + ESS[st.ei].en.replace('Under AED', 'under').replace('Over', 'over'), 'الأساسيات · ' + ESS[st.ei].ar)]; }, mk: function () { return ACK.ess[st.ei]; } },
     { id: 'com', mode: 'full', lead: true, ai: E('Last question. And on comfort: going out, travel, the little luxuries?', 'السؤال الأخير. وماذا عن الرفاهية: الخروج، والسفر، والكماليات الصغيرة؟'), hints: COM.map(function (b, i) { return { t: b, set: { ci: i } }; }), auto: E('Somewhere comfortable.', 'شيء مريح.'), autoSet: { ci: 1 } },
     { id: 'heard6', mode: 'full', lead: true, hold: 1400, tag: function () { var c = COM[st.ci]; return ['com', E(c.en.split(' · ')[0], c.ar.split(' · ')[0])]; }, mk: function () { return ACK.com[st.ci]; } },
-    { id: 'think', mode: 'thumb', compact: true, card: 'think', ai: E('Thank you, Saeed. Let me picture it.', 'شكراً يا سعيد. دعني أتخيّلها.'), ai_state: 'thinking' },
+    { id: 'think', mode: 'thumb', compact: true, card: 'think', ai: E('Thank you. Let me picture it.', 'شكراً لك. دعني أتخيّلها.'), ai_state: 'thinking' },
     /* 3 · retirement, wrapped: stories, full screen, out of a doorway */
     { id: 'w_intro', mode: 'thumb', compact: true, ws: 'intro', ai: E('Take a moment to look back. Your retirement, wrapped.', 'خذ لحظة لتنظر إلى الوراء. تقاعدك في لمحة.') },
     { id: 'w_fact', mode: 'thumb', compact: true, ws: 'fact', ai: E('Did you know? After 20 years of work, your pension is 70% of your salary.', 'هل تعلم؟ بعد 20 سنة من العمل، يبلغ معاشك 70% من راتبك.') },
@@ -2146,9 +2330,9 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     { id: 'w_mfact', mode: 'thumb', compact: true, ws: 'mfact', ai: E('Years from an earlier job can count too.', 'سنوات العمل السابقة قد تُحسب أيضاً.') },
     { id: 'w_mq', mode: 'thumb', compact: true, ws: 'mq', ai: E('Do you have any earlier service years?', 'هل لديك سنوات خدمة سابقة؟') },
     { id: 'w_myears', mode: 'thumb', compact: true, ws: 'myears', ai: E('How many years could you join?', 'كم سنة يمكنك ضمّها؟') },
-    { id: 'w_msim', mode: 'thumb', compact: true, ws: 'msim', ai: E('Shall I simulate the pre-activation checks?', 'هل أحاكي فحوص ما قبل التفعيل؟') },
-    { id: 'w_ufact', mode: 'thumb', compact: true, ws: 'ufact', ai: E('You can buy up to five years of service.', 'يمكنك شراء ما يصل إلى خمس سنوات خدمة.') },
-    { id: 'w_uq', mode: 'thumb', compact: true, ws: 'uq', ai: E('Which pension system are you in?', 'في أي نظام تقاعدي أنت؟') },
+    { id: 'w_msim', mode: 'thumb', compact: true, ws: 'msim', ai: E('Shall I review your service history?', 'هل أراجع سجل خدمتك؟') },
+    { id: 'w_ufact', mode: 'thumb', compact: true, ws: 'ufact', ai: E('You can purchase up to five additional years of service.', 'يمكنك شراء ما يصل إلى خمس سنوات خدمة إضافية.') },
+    { id: 'w_uq', mode: 'thumb', compact: true, ws: 'uq', ai: E('Which pension fund are you registered with?', 'في أي صندوق تقاعد أنت مسجّل؟') },
     { id: 'w_uyears', mode: 'thumb', compact: true, ws: 'uyears', ai: E('How many years would you buy?', 'كم سنة تودّ أن تشتري؟') },
     { id: 'w_usim', mode: 'thumb', compact: true, ws: 'usim', ai: E('Shall I check your eligibility?', 'هل أتحقق من أهليتك؟') },
     { id: 'w_xfact', mode: 'thumb', compact: true, ws: 'xfact', ai: E('Thirty-five years take your pension to 100% of your salary.', 'خمس وثلاثون سنة تبلغ بمعاشك 100% من راتبك.') },
@@ -2164,7 +2348,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     { id: 'w_well', mode: 'thumb', compact: true, ws: 'well', ai: E('A long retirement starts with your health.', 'التقاعد الطويل يبدأ بصحتك.') },
     /* 5 · the good day, painted, and a postcard to keep */
     { id: 'w_future', mode: 'thumb', compact: true, ws: 'future', ai: E('Here is the good day you told me about.', 'هذا هو اليوم الجميل الذي حدّثتني عنه.') },
-    { id: 'thanks', mode: 'thumb', compact: true, ws: 'post', ai: E('Your postcard, to keep. Thank you for stopping by, Saeed.', 'بطاقتك لتحتفظ بها. شكراً لزيارتك يا سعيد.') }
+    { id: 'thanks', mode: 'thumb', compact: true, ws: 'post', ai: E('Your postcard, to keep. Thank you for stopping by.', 'بطاقتك لتحتفظ بها. شكراً لزيارتك.') }
   ];
   function idx(id) { for (var i = 0; i < STEPS.length; i++) if (STEPS[i].id === id) return i; return 0; }
 
@@ -2177,7 +2361,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     uae: E('UAE PASS', 'UAE PASS'), check: E('Check your phone', 'تحقق من هاتفك'), ok: E('Nothing happens without your OK.', 'لا شيء يحدث دون موافقتك.'), verified: E('Verified', 'تم التحقق'), verifiedS: E('Signed on your phone', 'تم التوقيع على هاتفك'),
     only: E('Only with your OK', 'بموافقتك فقط')
   };
-  var THINK = [[E('Picturing your life', 'تصوّر حياتك'), E('From what you told me', 'مما أخبرتني به')], [E('Applying the pension law', 'تطبيق قانون المعاشات'), E('Federal Decree-Law No. 57 of 2023', 'المرسوم بقانون اتحادي رقم 57 لسنة 2023')], [E('Simulating future scenarios', 'محاكاة سيناريوهات المستقبل'), E('Your plan, year by year, up to 85', 'خطتك، سنة بسنة، حتى 85')], [E('Finding GPSSA services for you', 'البحث عن خدمات الهيئة لك'), E('Buying service years · Shourak', 'شراء سنوات الخدمة · شُورَك')]];
+  var THINK = [[E('Picturing your life', 'تصوّر حياتك'), E('From what you told me', 'مما أخبرتني به')], [E('Applying the pension law', 'تطبيق قانون المعاشات'), E('Federal Law No. 7 of 1999', 'القانون الاتحادي رقم 7 لسنة 1999')], [E('Simulating your pension', 'محاكاة معاشك'), E('Year by year, up to 35 years of service', 'سنة بسنة، حتى 35 سنة خدمة')], [E('Finding ways to grow it', 'البحث عن طرق لزيادته'), E('Merge, purchase, extend, advance', 'الضم، الشراء، التمديد، التطوّر')]];
   var LEV = [
     { k: 'buy', t: E('Buy service years', 'شراء سنوات خدمة'), s: E('From 25 years of service, up to 5', 'من 25 سنة خدمة، حتى 5'), v: function () { return st.buy ? E('+' + st.buy + ' years', '+' + st.buy + ' سنوات') : E('Not yet', 'ليس بعد'); }, next: function () { st.buy = st.buy === 0 ? 2 : st.buy === 2 ? 5 : 0; } },
     { k: 'keep', t: E('If you change jobs', 'إن غيّرت عملك'), s: E('Shourak keeps your years together', 'شُورَك يحفظ سنواتك معاً'), v: function () { return st.keep ? E('Keep your years', 'احتفظ بسنواتك') : E('Cash out', 'صرف المكافأة'); }, next: function () { st.keep = !st.keep; } },
@@ -2723,7 +2907,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     var on = [st.buy ? T(E('Buy service years', 'شراء سنوات خدمة')) : '', T(E('Shourak', 'شُورَك')), st.save ? T(E('Monthly savings', 'الادخار الشهري')) : ''].filter(Boolean);
     var list = on.length > 1 ? on.slice(0, -1).join(', ') + (st.lang === 'ar' ? ' و' : ' and ') + on[on.length - 1] : on[0];
     var h = '<div class="sim-card inbox"><div class="hd"><span class="caps">' + esc(T(E('Your inbox', 'بريدك'))) + '</span><span class="caps">' + esc(T(E('Just now', 'الآن'))) + '</span></div>';
-    h += '<div class="mail"><div class="from"><span class="av"><img src="' + (typeof GPSSA !== 'undefined' ? GPSSA : '') + '" alt=""></span><span><b>GPSSA</b><small>' + esc(T(E('To: Saeed', 'إلى: سعيد'))) + '</small></span><span class="dot"></span></div>';
+    h += '<div class="mail"><div class="from"><span class="av"><img src="' + (typeof GPSSA !== 'undefined' ? GPSSA : '') + '" alt=""></span><span><b>GPSSA</b><small>' + esc(T(E('To: you', 'إلى: أنت'))) + '</small></span><span class="dot"></span></div>';
     h += '<b class="sj">' + esc(T(E('Your services are active', 'خدماتك مفعّلة'))) + '</b><p>' + esc(T(E('Dear Saeed, we have switched on ' + list + '. Your signed request, the dates and your next steps are all inside.', 'عزيزي سعيد، فعّلنا ' + list + '. طلبك الموقّع والتواريخ وخطواتك التالية كلها في الداخل.'))) + '</p>';
     h += '<div class="att"><svg width="26" height="26" viewBox="0 0 26 26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l5 5v15H7z"/><path d="M15 3v5h5"/></svg><span>' + esc(T(E('Signed request.pdf', 'الطلب الموقّع.pdf'))) + '</span></div></div>';
     h += '<p class="fine">' + esc(T(E('Simulation · in this demo, no email is sent.', 'محاكاة · في هذه التجربة لا يُرسل أي بريد.'))) + '</p></div>';
@@ -2874,8 +3058,8 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
       });
       if (t1 < t0) return;
       /* the words sit on the middle line between the photo (880) and the voice button (1729) */
-      var base = col.offsetTop, sh = Math.round(1304 - (base + (t0 + t1) / 2));
-      if (base + t0 + sh < 880 + 30) sh = 880 + 30 - base - t0;
+      var EXc = stage.classList.contains('full') ? (window.__ex || 0) : 0, base = col.offsetTop, sh = Math.round(1304 + EXc - (base + (t0 + t1) / 2));
+      if (base + t0 + sh < 880 + EXc + 30) sh = 880 + EXc + 30 - base - t0;
       col.style.transform = 'translateY(' + sh + 'px)';
     }
     if (window.ResizeObserver) { var ro = new ResizeObserver(centre); ro.observe(col); [].forEach.call(col.children, function (el) { ro.observe(el); }); }
@@ -3229,15 +3413,15 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     dream: function () {
       var ps = (st.dm && st.dm.length ? st.dm : [2]).slice(0, 3).map(function (k) { return DREAMP[k]; });
       var en = ps.map(function (p) { return p.en; }), ar = ps.map(function (p) { return p.ar; });
-      en = en.length > 1 ? en.slice(0, -1).join(', ') + ' and ' + en[en.length - 1] : en[0];
-      return E(en.charAt(0).toUpperCase() + en.slice(1) + '. I can picture it already.', ar.join('، ') + '. أستطيع أن أتخيّلها منذ الآن.');
+      /* the answer, said back in Suhail's words, then the client's line */
+      return E('Days ' + en.join(', ') + '. It sounds like you’ve already started picturing the future.', 'أيام ' + ar.join('، ') + '. يبدو أنك بدأت بالفعل تتخيّل المستقبل.');
     },
-    years: [E('Just starting. That is the best moment to plan.', 'في البداية. هذه أفضل لحظة للتخطيط.'), E('Ten years already. That is a solid start.', 'عشر سنوات حتى الآن. هذه بداية متينة.'), E('Twenty years of work. That counts for a lot.', 'عشرون سنة من العمل. هذا يُحسب لك كثيراً.'), E('Thirty years and more. You have built a lot already.', 'ثلاثون سنة وأكثر. لقد بنيت الكثير بالفعل.')],
-    salary: [E('Thank you. A range is all I need.', 'شكراً لك. النطاق يكفيني.'), E('Thank you. A range is all I need.', 'شكراً لك. النطاق يكفيني.'), E('Thank you. A range is all I need.', 'شكراً لك. النطاق يكفيني.')],
+    years: [E('Starting early is the best moment to plan, and every year from today builds your future pension.', 'البداية المبكرة هي أفضل لحظة للتخطيط، وكل سنة من اليوم تبني معاشك المستقبلي.'), E('Ten years of service is a solid foundation, and every year from here adds to your future pension.', 'عشر سنوات من الخدمة أساس متين، وكل سنة من الآن تضيف إلى معاشك المستقبلي.'), E('Twenty years of service is a significant achievement and an important part of building your future pension.', 'عشرون سنة من الخدمة إنجاز كبير وجزء مهم من بناء معاشك المستقبلي.'), E('Thirty years of service and more is a remarkable achievement, and it brings you close to a full pension.', 'ثلاثون سنة من الخدمة وأكثر إنجاز لافت، ويقرّبك من المعاش الكامل.')],
+    salary: [E('Thank you. That’s what I need to start estimating your future pension. Just a few more questions.', 'شكراً لك. هذا ما أحتاجه لأبدأ بتقدير معاشك المستقبلي. بقيت بضعة أسئلة فقط.'), E('Thank you. That’s what I need to start estimating your future pension. Just a few more questions.', 'شكراً لك. هذا ما أحتاجه لأبدأ بتقدير معاشك المستقبلي. بقيت بضعة أسئلة فقط.'), E('Thank you. That’s what I need to start estimating your future pension. Just a few more questions.', 'شكراً لك. هذا ما أحتاجه لأبدأ بتقدير معاشك المستقبلي. بقيت بضعة أسئلة فقط.')],
     spend: [E('Thank you. That helps me compare your pension with the life you live.', 'شكراً لك. هذا يساعدني على مقارنة معاشك بالحياة التي تعيشها.'), E('Thank you. That helps me compare your pension with the life you live.', 'شكراً لك. هذا يساعدني على مقارنة معاشك بالحياة التي تعيشها.'), E('Thank you. That helps me compare your pension with the life you live.', 'شكراً لك. هذا يساعدني على مقارنة معاشك بالحياة التي تعيشها.')],
-    sector: [E('Public sector. Thank you, that helps me point you to the right services.', 'القطاع الحكومي. شكراً، هذا يساعدني على توجيهك إلى الخدمات المناسبة.'), E('Private sector. Thank you, that helps me point you to the right services.', 'القطاع الخاص. شكراً، هذا يساعدني على توجيهك إلى الخدمات المناسبة.')],
+    sector: [E('Federal government. Thank you, that helps me point you to the right services.', 'الحكومة الاتحادية. شكراً، هذا يساعدني على توجيهك إلى الخدمات المناسبة.'), E('Local government. In most emirates that is GPSSA too, while Abu Dhabi and Sharjah have their own funds.', 'حكومة محلية. في معظم الإمارات تتبع الهيئة أيضاً، بينما لأبوظبي والشارقة صناديقهما الخاصة.'), E('Private sector. Thank you, that helps me point you to the right services.', 'القطاع الخاص. شكراً، هذا يساعدني على توجيهك إلى الخدمات المناسبة.')],
     ess: [E('Got it. Now the nicer part of the budget.', 'فهمت. والآن الجزء الأجمل من الميزانية.'), E('Got it. Now the nicer part of the budget.', 'فهمت. والآن الجزء الأجمل من الميزانية.'), E('Got it. Now the nicer part of the budget.', 'فهمت. والآن الجزء الأجمل من الميزانية.')],
-    com: [E('Thank you. Now I can compare your pension with the life you live.', 'شكراً لك. الآن يمكنني مقارنة معاشك بالحياة التي تعيشها.'), E('Thank you. Now I can compare your pension with the life you live.', 'شكراً لك. الآن يمكنني مقارنة معاشك بالحياة التي تعيشها.'), E('Thank you. Now I can compare your pension with the life you live.', 'شكراً لك. الآن يمكنني مقارنة معاشك بالحياة التي تعيشها.')],
+    com: [E('Thank you. That’s all I need to estimate your future pension and compare it with the life you live.', 'شكراً لك. هذا كل ما أحتاجه لتقدير معاشك المستقبلي ومقارنته بالحياة التي تعيشها.'), E('Thank you. That’s all I need to estimate your future pension and compare it with the life you live.', 'شكراً لك. هذا كل ما أحتاجه لتقدير معاشك المستقبلي ومقارنته بالحياة التي تعيشها.'), E('Thank you. That’s all I need to estimate your future pension and compare it with the life you live.', 'شكراً لك. هذا كل ما أحتاجه لتقدير معاشك المستقبلي ومقارنته بالحياة التي تعيشها.')],
     jobs: [E('One path all along. That keeps things simple.', 'طريق واحد طوال الوقت. هذا يجعل الأمور بسيطة.'), E('Good to know. Years from earlier jobs can count too.', 'من الجيد أن أعرف. سنوات العمل السابقة قد تُحسب أيضاً.'), E('Many chapters, then. Every one of those years can count.', 'فصول كثيرة إذاً. وكل سنة منها قد تُحسب.')]
   };
   /* GPSSA, Federal Law No. 7 of 1999 (Emiratis insured before the 2023 law): 60% at 15 years, then 2% a year, 70% at 20, 100% at 35 */
@@ -3248,7 +3432,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
   function rng(y) { var s = share(y); return [Math.max(0, Math.round(s - 3)), Math.min(100, Math.round(s + 3))]; }
   function improvedY() { return Math.min(35, baseY() + (st.on.more ? 5 : 0) + (st.on.join ? 3 : 0)); }
   function nf(n) { var s = (Math.round(n / 100) * 100).toLocaleString('en-US'); return s; }
-  function resetNew() { st.dW = 0; st.dP = 0; st.dD = 0; st.yi = 2; st.ji = 1; st.si = 0; st.dm = []; tagsClear(); st.pi = 0; st.sc = 1; st.ei = 1; st.ci = 1; st.well = {}; st.svc = 'merge'; st.hi = 0; st.tab = 0; st.tabTouched = false; st.tier = null; st.on = { more: false, join: false, save: false }; st.img = null; st.dkBuilt = null; }
+  function resetNew() { st.dW = 0; st.dP = 0; st.dD = 0; st.yi = 2; st.ji = 1; st.si = 0; st.dm = []; tagsClear(); st.pi = 0; st.sc = 2; st.ei = 1; st.ci = 1; st.well = {}; st.svc = 'merge'; st.hi = 0; st.tab = 0; st.tabTouched = false; st.tier = null; st.on = { more: false, join: false, save: false }; st.img = null; st.dkBuilt = null; }
   resetNew();
   var RED_A = 'M0 304A433 433 0 0 1 433 737H216.5A216.5 216.5 0 0 0 0 520.5Z';
   var GLASS_A = 'M347 0A433 433 0 0 0 780 433V216.5A216.5 216.5 0 0 1 563.5 0Z';
@@ -3530,10 +3714,10 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
 
   /* ---------- the service, simulated: Ma'ashi, three steps, and it says so ---------- */
   var SVCS = {
-    merge: { t: E('Merge service period', 'ضمّ فترات الخدمة'), steps: [[E('Sign in with UAE PASS', 'سجّل الدخول عبر UAE PASS'), E('Simulated, no real login', 'محاكاة، بلا تسجيل دخول فعلي'), E('Signed in · sample record', 'تم الدخول · سجل تجريبي')],
+    merge: { t: E('Merge service periods', 'ضمّ فترات الخدمة'), steps: [[E('Sign in with UAE PASS', 'سجّل الدخول عبر UAE PASS'), E('Simulated, no real login', 'محاكاة، بلا تسجيل دخول فعلي'), E('Signed in · sample record', 'تم الدخول · سجل تجريبي')],
       [E('Looking for earlier jobs', 'البحث عن وظائف سابقة'), E('Checking your record…', 'أتحقق من سجلك…'), E('Found one earlier job · 3 years', 'وُجدت وظيفة سابقة · 3 سنوات')],
       [E('Send the request to GPSSA', 'إرسال الطلب إلى الهيئة'), E('Next', 'التالي'), E('Sent · sample request', 'أُرسل · طلب تجريبي')]],
-      mail: E('Hello, we have received your request to merge your service period. Your reference number, the earlier job we found and your next steps are all inside.', 'مرحباً، استلمنا طلبك لضمّ فترة خدمتك. رقمك المرجعي، والوظيفة السابقة التي وجدناها، وخطواتك التالية كلها في الداخل.'), pdf: E('Merge request.pdf', 'طلب الضم.pdf') },
+      mail: E('Hello, we have received your request to merge your service periods. Your reference number, the earlier service we found and your next steps are all inside.', 'مرحباً، استلمنا طلبك لضمّ فترة خدمتك. رقمك المرجعي، والوظيفة السابقة التي وجدناها، وخطواتك التالية كلها في الداخل.'), pdf: E('Merge request.pdf', 'طلب الضم.pdf') },
     purchase: { t: E('Purchase service years', 'شراء سنوات الخدمة'), steps: [[E('Sign in with UAE PASS', 'سجّل الدخول عبر UAE PASS'), E('Simulated, no real login', 'محاكاة، بلا تسجيل دخول فعلي'), E('Signed in · sample record', 'تم الدخول · سجل تجريبي')],
       [E('Calculating the cost', 'حساب التكلفة'), E('Checking your record…', 'أتحقق من سجلك…'), E('Estimate ready · 3 years', 'التقدير جاهز · 3 سنوات')],
       [E('Send the request to GPSSA', 'إرسال الطلب إلى الهيئة'), E('Next', 'التالي'), E('Sent · sample request', 'أُرسل · طلب تجريبي')]],
@@ -3548,7 +3732,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     return h + '</ol><p class="nt">' + esc(T(E('This is how it works in Ma’ashi. Nothing is sent and nothing is stored.', 'هكذا تعمل الخدمة في تطبيق معاشي. لا يُرسل شيء ولا يُحفظ شيء.'))) + '</p></div>';
   };
   cardBuild.mail = function () {
-    return '<div class="mailc"><div class="mh"><img src="' + GPSSA + '" alt="GPSSA"><span><b>GPSSA</b><small>' + esc(T(E('To: Saeed', 'إلى: سعيد'))) + '</small></span><i class="dotr"></i></div><h3>' + esc(T(E('Your request is submitted', 'تم تقديم طلبك'))) + '</h3><p>' + esc(T(SV().mail)) + '</p><span class="att"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 2h6l4 4v12H6z M12 2v4h4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>' + esc(T(SV().pdf)) + '</span></div>';
+    return '<div class="mailc"><div class="mh"><img src="' + GPSSA + '" alt="GPSSA"><span><b>GPSSA</b><small>' + esc(T(E('To: you', 'إلى: أنت'))) + '</small></span><i class="dotr"></i></div><h3>' + esc(T(E('Your request is submitted', 'تم تقديم طلبك'))) + '</h3><p>' + esc(T(SV().mail)) + '</p><span class="att"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 2h6l4 4v12H6z M12 2v4h4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>' + esc(T(SV().pdf)) + '</span></div>';
   };
   function svcUpdate(s) {
     var card = $('card'); if (s.acts == null) return;
@@ -4024,7 +4208,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     function plans() { var y = yrs(); return (y < 20 ? [20, 25, 30] : y < 25 ? [25, 30, 33] : [y + 1, y + 2, y + 3]).map(function (n) { return Math.min(33, n); }).filter(function (n, i, a) { return n > y && a.indexOf(n) === i; }); }
     function oIdx(k) { return ORDER.indexOf(BRK[k] ? 'paths' : k); }
     var TONE = { intro: 'dark', fact: 'dark', years: 'dark', grows: 'light', quiz: 'dark', range: 'dark', extra: 'light', merge: 'light', future: 'dark', post: 'light', well: 'dark', paths: 'light',
-      mfact: 'dark', ufact: 'dark', xfact: 'dark', afact: 'dark', mq: 'light', uq: 'light', aq: 'light', myears: 'light', uyears: 'light', xyears: 'light', msim: 'light', usim: 'light', xsum: 'light', asum: 'light', xq: 'light' };
+      mfact: 'dark', ufact: 'dark', xfact: 'dark', afact: 'dark', mq: 'light', uq: 'light', aq: 'light', myears: 'dark', uyears: 'light', xyears: 'light', msim: 'light', usim: 'light', xsum: 'light', asum: 'light', xq: 'light' };
     var DUR = { fact: 7600, years: 8200, grows: 5000, quiz: 12000, range: 9000, extra: 12000, future: 9500, mfact: 8200, ufact: 8200, xfact: 8200, afact: 8200 };
 
     /* ---------- small builders ---------- */
@@ -4062,20 +4246,20 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     }
     /* how many years: chips, and a white card with the curve */
     function byrs(b, hd, ch, two) {
-      var H = two ? 690 : 790;
-      return sandBg() + '<p class="wlab dk wi byl" style="--d:1"></p>' + lines(hd, 'hd dk', 2)
+      var H = two ? 630 : 730;
+      return (b === 'merge' ? '<div class="wbg sky2"></div>' + gq(2400, [1, 0, 0, 1, 0, 0], 'rgba(210,210,210,.16)', 'sweep') : sandBg()) + '<p class="wlab dk wi byl" style="--d:1"></p>' + lines(hd, 'hd dk', 2)
         + '<div class="bchips wi' + (two ? ' two' : '') + '" style="--d:4;grid-template-columns:repeat(' + ch.length + ',1fr)" role="radiogroup" data-ui>' + ch.map(function (n) { return '<button type="button" role="radio" data-ui data-c="' + b + ':' + n + '">+' + n + '</button>'; }).join('') + '</div>'
         + '<div class="bcard wi' + (two ? ' two' : '') + '" style="--d:5" data-ui><div class="bst"><div><small>' + esc(L(E('Projected pension', 'المعاش المتوقع'))) + '</small><b class="v1"><span class="u">' + esc(L(E('AED', 'درهم'))) + '</span><span class="n"></span></b><em class="e1"></em></div>'
         + '<div><small class="l2"></small><b class="v2"><span class="u u2"></span><span class="n"></span></b><em class="e2"><i></i><span></span></em></div></div>'
         + '<svg class="bch" data-h="' + H + '" viewBox="0 0 948 ' + H + '" aria-hidden="true"><defs><linearGradient id="bga' + b + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d2c1b2"/><stop offset="1" stop-color="#d2c1b2" stop-opacity=".18"/></linearGradient><linearGradient id="bgb' + b + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f7a89"/><stop offset="1" stop-color="#9db6bd" stop-opacity=".22"/></linearGradient></defs>'
-        + '<g class="grd"></g><path class="a0" fill="url(#bga' + b + ')"/><path class="a1" fill="url(#bgb' + b + ')"/><path class="c0"/><path class="c1"/><line class="td"/><circle class="tdd" r="9"/><g class="tdp"><rect rx="20" height="40"/><text></text></g><text class="fpl"></text><circle class="pld" r="9"/><g class="plp"><rect rx="20" height="40"/><text></text></g><circle class="eh" r="24"/><circle class="ed" r="11"/><g class="pin"><rect rx="26" height="52"/><text></text></g></svg></div>'
+        + '<g class="grd"></g><path class="a0" fill="url(#bga' + b + ')"/><path class="a1" fill="url(#bgb' + b + ')"/><path class="c0"/><path class="c1"/><line class="td"/><circle class="tdd" r="9"/><g class="tdp"><rect rx="25" height="50"/><text></text></g><text class="fpl"></text><circle class="pld" r="9"/><g class="plp"><rect rx="25" height="50"/><text></text></g><circle class="eh" r="24"/><circle class="ed" r="11"/><g class="pin"><rect rx="32" height="64"/><text></text></g></svg></div>'
         + '<button type="button" class="wbtn dk bcf wi" style="--d:6" data-ui data-a="bnext">' + esc(L(E('Confirm', 'تأكيد'))) + '</button>';
     }
     /* shall I simulate: the illustration, two answers */
     function bsim(b, hd, sub) {
       return sandBg() + blab(b) + lines(hd, 'hd dk', 2) + '<p class="wsub dk bsub wi" style="--d:4">' + esc(L(sub)) + '</p>'
         + '<div class="bil2 wi" style="--d:5"><i class="halo"></i><img src="' + IL[b] + '" alt="" draggable="false"></div>'
-        + '<button type="button" class="wbtn dk byes wi" style="--d:6" data-ui data-a="sim" data-k="' + b + '">' + esc(L(E('Yes, run the checks', 'نعم، ابدأ الفحوص'))) + '</button>'
+        + '<button type="button" class="wbtn dk byes wi" style="--d:6" data-ui data-a="sim" data-k="' + b + '">' + esc(L(b === 'merge' ? E('Yes, review it', 'نعم، راجعه') : E('Yes, run the checks', 'نعم، ابدأ الفحوص'))) + '</button>'
         + '<button type="button" class="wbtn gl bno wi" style="--d:6.6" data-ui data-a="back">' + esc(L(E('Not now', 'ليس الآن'))) + '</button>';
     }
     /* the summary: a ring that grows from today to the new share */
@@ -4106,7 +4290,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
 
     /* ---------- the overlay ---------- */
     var root = document.createElement('div'); root.id = 'ws'; root.setAttribute('aria-live', 'polite');
-    root.innerHTML = '<div class="wss"></div><div class="wtop" aria-hidden="false"><button type="button" class="wx" data-ui aria-label="Start again"><svg viewBox="0 0 30 30"><path d="M5.5 15a9.5 9.5 0 1 0 2.8-6.7"/><path d="M5.5 3.5v6h6"/></svg></button><ol class="wpg">' + ORDER.map(function () { return '<li><i></i></li>'; }).join('') + '</ol><ol class="wpg bpg"></ol></div><div class="wwash" aria-hidden="true"></div>';
+    root.innerHTML = '<div class="wss"></div><div class="wtop" aria-hidden="false"><button type="button" class="wbk" data-ui aria-label="Back"><svg viewBox="0 0 30 30"><path d="M24 15H6M13 7.5 5.5 15 13 22.5"/></svg></button><button type="button" class="wx" data-ui aria-label="Close and start again"><svg viewBox="0 0 30 30"><path d="M6 6L24 24M24 6L6 24"/></svg></button><ol class="wpg">' + ORDER.map(function () { return '<li><i></i></li>'; }).join('') + '</ol><ol class="wpg bpg"></ol></div><div class="wwash" aria-hidden="true"></div><div class="wtut" role="dialog" aria-modal="true" aria-label="How to move through the story"><div class="tmid"><span class="tc"><i class="rp"></i><i class="rp r2"></i><svg viewBox="0 0 30 30"><path d="M6 15h18M17 7.5 24.5 15 17 22.5"/></svg></span><p class="tt"></p><p class="ts"></p></div><button type="button" class="wbtn tok"></button></div>';
     stage.appendChild(root);
     var wss = root.querySelector('.wss'), wash = root.querySelector('.wwash');
     var built = null, cur = null, door = null, on = false, timer = null, prog = { dur: 0, acc: 0, t0: 0, paused: false, raf: 0 };
@@ -4149,7 +4333,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
           + '<line class="you" x1="' + GX(yr).toFixed(1) + '" x2="' + GX(yr).toFixed(1) + '" y1="' + py.toFixed(1) + '" y2="1462"/>'
           + '<circle class="nd n30" cx="' + GX(20).toFixed(1) + '" cy="' + GY(70).toFixed(1) + '" r="6"/><circle class="nd n35" cx="' + GX(35).toFixed(1) + '" cy="' + GY(100).toFixed(1) + '" r="6"/></svg>'
           + '<span class="ya" style="top:' + (GY(100) - 14).toFixed(0) + 'px">100%</span><span class="ya" style="top:' + (GY(70) - 14).toFixed(0) + 'px">70%</span>' + (share(yr) < 66 && share(yr) > 8 ? '<span class="ya y0" style="top:' + (py - 14).toFixed(0) + 'px">' + P(yr) + '%</span>' : '')
-          + [15, 20, 25, 30, 35].map(function (y) { return '<span class="xa" style="left:' + (GX(y) - (y === 35 ? 30 : 14)).toFixed(0) + 'px">' + L(y === 35 ? E('35 years', '35 سنة') : E(String(y), String(y))) + '</span>'; }).join('')
+          + [15, 20, 25, 30, 35].map(function (y) { return '<span class="xa" style="left:' + (GX(y) - (y === 35 ? 62 : 16)).toFixed(0) + 'px">' + L(y === 35 ? E('35 years', '35 سنة') : E(String(y), String(y))) + '</span>'; }).join('')
           + '<span class="xa yt" style="left:' + (GX(yr) - 70).toFixed(0) + 'px">' + L(E('You today', 'أنت اليوم')) + '</span>'
           + '<div class="knob" data-ui role="slider" aria-label="Years of work" tabindex="0"><i class="halo"></i><i class="dot"><svg viewBox="0 0 34 14"><path d="M7 2L1 7L7 12Z M27 2L33 7L27 12Z" fill="#fff"/></svg></i><span class="tip"></span></div></div>'
           + note(L(E('From 15 years your pension starts at 60%, and every additional year adds 2% of your salary.', 'من 15 سنة يبدأ معاشك عند 60%، وكل سنة إضافية تضيف 2% من راتبك.')));
@@ -4159,7 +4343,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
         var cards = QV.map(function (v, i) { return '<div class="qc" data-i="' + i + '"><div class="qf">' + QA('q1') + '<b class="cu">' + L(E('AED', 'درهم')) + '</b><b class="qv">' + fmtv(v) + '</b><span class="qm">' + L(E('each month', 'كل شهر')) + '</span>' + QA('q2') + '</div><div class="qb"><span class="vi"></span><b class="vd"></b></div></div>'; }).join('');
         return '<div class="wbg bur"></div>' + gq(1501, [.707, .707, -.707, .707, 540, 948], 'rgba(148,0,48,.2)', 'qg1') + gq(1501, [.707, -.707, -.707, -.707, 540, 1163], 'rgba(148,0,48,.2)', 'qg2', .5)
           + '<p class="wlab c wi" style="--d:1">' + L(E('Quick quiz', 'اختبار سريع')) + '</p>'
-          + '<p class="qq wi" style="--d:2">' + (noSal() ? LN('<b>Guess.</b> What is the expected range of pension from a AED 25,000 salary?', '<b>خمّن.</b> ما نطاق المعاش المتوقع من راتب قدره 25,000 درهم؟') : LN('<b>Guess.</b> Which of the below would be an accurate average of your future pension?', '<b>خمّن.</b> أيّ مما يلي أقرب إلى متوسط معاشك المستقبلي؟')) + '</p>'
+          + '<p class="qq wi" style="--d:2">' + (noSal() ? LN('<b>Guess.</b> What is the expected range of pension from a AED 25,000 salary?', '<b>خمّن.</b> ما نطاق المعاش المتوقع من راتب قدره 25,000 درهم؟') : LN('<b>Guess.</b> Which of these is closest to your future monthly pension?', '<b>خمّن.</b> أيّ مما يلي أقرب إلى معاشك الشهري المستقبلي؟')) + '</p>'
           + '<div class="qring wi" style="--d:3"></div><div class="qtrack wi" style="--d:3" data-ui>' + cards + '</div>'
           + '<button type="button" class="wbtn dk wi" style="--d:5" data-ui data-a="confirm">' + L(E('Confirm', 'تأكيد')) + '</button>';
       },
@@ -4168,11 +4352,11 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
         [[.707, .707, -.707, .707, 539.5, 1132.4], [-.707, -.707, .707, -.707, 539.5, 732.6], [-.707, .707, -.707, -.707, 339.6, 932.5], [.707, -.707, .707, .707, 739.4, 932.5]].forEach(function (m, i) { F += '<div class="pet p' + i + '" style="--i:' + i + '">' + gq(518, m, 'rgba(210,210,210,.2)') + '</div>'; });
         [[0, 1, -1, 0, 270.8, 1201.2], [0, -1, 1, 0, 808.2, 663.8], [-1, 0, 0, -1, 270.8, 663.8], [1, 0, 0, 1, 808.2, 1201.2]].forEach(function (m, i) { F += '<div class="arc a' + i + '" style="--i:' + i + '">' + gq(985, m, 'rgba(210,210,210,.2)') + '</div>'; });
         return '<div class="wbg sky2"></div>' + R + '<div class="aper">' + F + '</div>'
-          + '<p class="rhd wi" style="--d:2">' + L(E('Pension simulated on a salary of', 'معاش محاكى على راتب قدره')) + '</p>'
-          + '<p class="rsal wi" style="--d:3">' + L(noSal() ? E('AED 25,000 · sample', '25,000 درهم · افتراضي') : BANDL[Math.min(3, st.si)]) + '</p>'
+          + '<p class="rhd wi" style="--d:2">' + L(E('Pension simulated', 'معاش محاكى')) + '</p>'
+          + '<p class="rsal wi" style="--d:3">' + L(E('on a salary of AED ' + band()[0] / 1000 + ' to ' + band()[1] / 1000 + 'k', 'على راتب من ' + band()[0] / 1000 + ' إلى ' + band()[1] / 1000 + ' ألف درهم')) + '</p>'
           + '<p class="rv r1"><span class="n"></span></p><p class="rto wi" style="--d:4">' + L(E('to', 'إلى')) + '</p><p class="rv r2"><span class="n"></span></p>'
           + '<p class="rfl wi" style="--d:5">' + L(E('AED a month, for life.', 'درهم شهرياً، مدى الحياة.')) + '</p>'
-          + '<div class="wnote wi dlt" style="--d:5"><span class="wsp ok"><i><svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg></i></span><p class="dx"></p></div>';
+          + '<div class="wnote wi dlt" style="--d:5"><span class="wsp">' + SPK + '</span><p class="dx"></p></div>';
       },
       extra: function () {
         return '<div class="wbg sand"></div>'
@@ -4199,24 +4383,24 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
           + '<p class="wlab wi" style="--d:1">' + L(E('Your next steps', 'خطواتك التالية')) + '</p>'
           + lines(LN(['Start improving your', 'pension today'], ['ابدأ بتحسين', 'معاشك اليوم']), 'hd dk', 2)
           + '<button type="button" class="wbtn dk pcont" data-ui data-a="cont">' + L(E('Continue', 'متابعة')) + '</button><button type="button" class="wbtn gl pskip" data-ui data-a="cont">' + L(E('Finalize and end', 'إنهاء وختام')) + '</button>'
-          + '<p class="wsub dk ps wi" style="--d:4">' + L(E('Below are the main approaches through which you can optimize your pension.', 'إليك أهم الطرق التي يمكنك من خلالها تحسين معاشك.')) + '</p>'
+          + '<p class="wsub dk ps wi" style="--d:4">' + L(E('Four ways to grow it. Pick one to see what it adds for you.', 'أربع طرق لزيادته. اختر واحدة لترى ما تضيفه لك.')) + '</p>'
           + B.map(function (b, i) { var sm = b[3] < 450; return '<button type="button" class="bub' + (sm ? ' sm' : '') + '" data-ui data-p="' + b[0] + '" style="left:' + b[1] + 'px;top:' + b[2] + 'px;width:' + b[3] + 'px;height:' + b[3] + 'px;--i:' + i + '"><span class="bin">' + '<img src="' + IL[b[0]] + '" alt="" draggable="false"><b>' + esc(L(b[4])).replace('\n', '<br>') + '</b><em class="act"><svg viewBox="0 0 20 20" width="20" height="20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>' + esc(L(E('Activated', 'مُفعّل'))) + '</em><i class="pl"><svg viewBox="0 0 20 20"><path d="M10 5v10M5 10h10"/></svg></i></span></button>'; }).join('');
       },
       mfact: function () { return bfact('merge', LN(['AED [more in your pension,]', '[every month, for life,]', 'for each earlier year [you join.]'], ['درهم [إضافية في معاشك،]', '[كل شهر، مدى الحياة،]', 'عن كل سنة سابقة [تضمّها.]']), E('Years with earlier employers, or from before you became a citizen, can be joined to your record, so every one of them counts.', 'يمكن ضمّ سنوات العمل لدى جهات سابقة، أو ما قبل حصولك على الجنسية، إلى سجلك، فتُحتسب كل واحدة منها.')); },
       mq: function () { return bq('merge', LN(['Do you have any', 'earlier service years?'], ['هل لديك سنوات', 'خدمة سابقة؟']), E('Pick one. It decides how your years are joined.', 'اختر واحداً. فهو يحدد طريقة ضمّ سنواتك.'),
-        [[E('Yes, with a GPSSA employer', 'نعم، لدى جهة مسجّلة في الهيئة'), E('Federal government or private sector', 'الحكومة الاتحادية أو القطاع الخاص')], [E('Yes, with another pension fund', 'نعم، لدى صندوق تقاعد آخر'), E('For example a local government or military fund', 'مثل صندوق حكومة محلية أو صندوق عسكري')], [E('No, I have none', 'لا، ليس لدي'), E('Then the years you have built already count in full', 'إذاً فالسنوات التي بنيتها تُحتسب كاملة')]]); },
+        [[E('Yes, with a GPSSA employer', 'نعم، لدى جهة مسجّلة في الهيئة'), E('Federal, local government or private sector', 'حكومة اتحادية أو محلية أو قطاع خاص')], [E('Yes, with another pension fund', 'نعم، لدى صندوق تقاعد آخر'), E('For example Abu Dhabi, Sharjah or a military fund', 'مثل صندوق أبوظبي أو الشارقة أو صندوق عسكري')], [E('No, I have none', 'لا، ليس لدي'), E('Then the years you have built already count in full', 'إذاً فالسنوات التي بنيتها تُحتسب كاملة')]]); },
       myears: function () { return byrs('merge', LN(['How many years?'], ['كم سنة؟']), [1, 2, 3, 4, 5]); },
-      msim: function () { return bsim('merge', LN(['Shall I simulate the', 'pre-activation checks?'], ['هل أحاكي فحوص', 'ما قبل التفعيل؟']), E('I’ll simulate your earlier jobs, check the periods and prepare the request, as I would in Ma’ashi. It takes about a minute.', 'سأحاكي وظائفك السابقة، وأتحقق من الفترات، وأجهّز الطلب كما في تطبيق معاشي. يستغرق ذلك دقيقة تقريباً.')); },
-      ufact: function () { return bfact('purchase', LN(['[You can buy up to]', 'five years [of service.]', '[They count like years worked.]'], ['[يمكنك شراء ما يصل إلى]', 'خمس سنوات [خدمة.]', '[تُحتسب كسنوات عمل.]']), E('Open once you have 20 years of service. Each month you buy costs 20% of today’s salary.', 'متاح بعد 20 سنة من الخدمة. تكلفة كل شهر تشتريه 20% من راتبك الحالي.'), true); },
-      uq: function () { return bq('purchase', LN(['Which pension system', 'are you in?'], ['في أي نظام', 'تقاعدي أنت؟']), E('Pick one. Purchase works within your own pension fund.', 'اختر واحداً. يتم الشراء ضمن صندوق التقاعد الخاص بك.'),
-        [[E('GPSSA', 'الهيئة العامة للمعاشات'), E('Federal government or private sector', 'الحكومة الاتحادية أو القطاع الخاص')], [E('Another pension fund', 'صندوق تقاعد آخر'), E('For example a local government or military fund', 'مثل صندوق حكومة محلية أو صندوق عسكري')]]); },
+      msim: function () { return bsim('merge', LN(['Shall I review your', 'service history?'], ['هل أراجع', 'سجل خدمتك؟']), E('I’ll review your previous employment records, verify the service periods, and prepare the request just as I would in Ma’ashi. It takes about a minute.', 'سأراجع سجلات عملك السابقة، وأتحقق من فترات الخدمة، وأجهّز الطلب تماماً كما في تطبيق معاشي. يستغرق ذلك دقيقة تقريباً.')); },
+      ufact: function () { return bfact('purchase', LN(['[You can purchase up to]', 'five additional years', '[of service. They count toward]', '[your pension benefits.]'], ['[يمكنك شراء ما يصل إلى]', 'خمس سنوات إضافية', '[من الخدمة. وتُحتسب ضمن]', '[استحقاقات معاشك.]']), E('Open once you have 20 years of service. Each month you buy costs 20% of today’s salary.', 'متاح بعد 20 سنة من الخدمة. تكلفة كل شهر تشتريه 20% من راتبك الحالي.'), true); },
+      uq: function () { return bq('purchase', LN(['Which pension fund are', 'you registered with?'], ['في أي صندوق تقاعد', 'أنت مسجّل؟']), E('Select your pension fund so I can check your service purchase options.', 'اختر صندوق تقاعدك لأتحقق من خيارات شراء الخدمة المتاحة لك.'),
+        [[E('GPSSA', 'الهيئة العامة للمعاشات'), E('Federal government and private sector employees', 'موظفو الحكومة الاتحادية والقطاع الخاص')], [E('Another Pension Fund', 'صندوق تقاعد آخر'), E('Local government or military pension fund members', 'المشتركون في صناديق تقاعد الحكومات المحلية أو الصناديق العسكرية')]]); },
       uyears: function () { return byrs('purchase', LN(['How many years', 'would you buy?'], ['كم سنة', 'تودّ أن تشتري؟']), [1, 2, 3, 4, 5], true); },
       usim: function () { return bsim('purchase', LN(['Shall I simulate the', 'eligibility checks?'], ['هل أحاكي', 'فحوص الأهلية؟']), E('I’ll check your eligibility, calculate the cost and prepare the request, as I would in Ma’ashi. It takes about a minute.', 'سأتحقق من أهليتك، وأحسب التكلفة، وأجهّز الطلب كما في تطبيق معاشي. يستغرق ذلك دقيقة تقريباً.')); },
       xfact: function () { return bfact('extend', LN(['years of service [take]', '[your pension to] 100%', '[of your salary.]'], ['سنة خدمة [تبلغ]', '[بمعاشك] 100%', '[من راتبك.]']), E('From 70% at 20 years, each extra year adds 2% of your salary.', 'من 70% عند 20 سنة، تضيف كل سنة إضافية 2% من راتبك.')); },
       xq: function () { return bq('extend', LN(['After how many years', 'do you plan to retire?'], ['بعد كم سنة عمل', 'تخطط للتقاعد؟']), E('Count all your years of work. Then I’ll show you what a little longer adds.', 'احسب كل سنوات عملك. ثم سأريك ما تضيفه سنوات قليلة أخرى.'), [0, 1, 2].map(function () { return [E('', ''), E('', '')]; })); },
       xyears: function () { return byrs('extend', LN(['How much longer', 'could you work?'], ['كم يمكنك', 'أن تعمل بعد؟']), [1, 3, 5, 10], true); },
       xsum: function () { return bsum('extend', LN(['Every extra year', 'counts, for life'], ['كل سنة إضافية', 'تُحسب، مدى الحياة'])); },
-      afact: function () { return bfact('advance', (st.sc === 0 ? LN(['[Your pension follows your]', 'last three years [of salary.]', '[A raise late on counts most.]'], ['[يتبع معاشك راتب]', 'سنواتك الثلاث الأخيرة.', '[والزيادة المتأخرة تُحسب أكثر.]']) : LN(['[Your pension follows your]', 'last five years [of salary.]', '[A raise late on counts most.]'], ['[يتبع معاشك راتب]', 'سنواتك الخمس الأخيرة.', '[والزيادة المتأخرة تُحسب أكثر.]'])), E('Your pension is based on your average contribution salary: the last three years in government, the last five in the private sector.', 'يُحتسب معاشك على أساس متوسط راتب الاشتراك: آخر ثلاث سنوات في الحكومة، وآخر خمس في القطاع الخاص.'), true); },
+      afact: function () { return bfact('advance', (st.sc !== 2 ? LN(['[Your pension follows your]', 'last three years [of salary.]', '[A raise late on counts most.]'], ['[يتبع معاشك راتب]', 'سنواتك الثلاث الأخيرة.', '[والزيادة المتأخرة تُحسب أكثر.]']) : LN(['[Your pension follows your]', 'last five years [of salary.]', '[A raise late on counts most.]'], ['[يتبع معاشك راتب]', 'سنواتك الخمس الأخيرة.', '[والزيادة المتأخرة تُحسب أكثر.]'])), E('Your pension is based on your average contribution salary: the last three years in government, the last five in the private sector.', 'يُحتسب معاشك على أساس متوسط راتب الاشتراك: آخر ثلاث سنوات في الحكومة، وآخر خمس في القطاع الخاص.'), true); },
       aq: function () { var S = SALm(); return bq('advance', LN(['What could your', 'next salary be?'], ['كم قد يكون', 'راتبك التالي؟']), E('Pick a realistic next step from today’s salary.', 'اختر خطوة واقعية تالية انطلاقاً من راتبك اليوم.'),
         ADV.map(function (a) { return [a[0], E('AED ' + k100(S * (1 + a[1] / 100)) + ' a month', k100(S * (1 + a[1] / 100)) + ' درهم شهرياً'), a[1]]; })); },
       asum: function () { return bsum('advance', LN(['Grow your salary,', 'grow your pension'], ['نمِّ راتبك،', 'ينمُ معاشك'])); },
@@ -4227,10 +4411,10 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
         return '<div class="wbg sky2"></div>' + gq(2048, [1, 0, 0, 1, 0, -124], 'rgba(210,210,210,.16)', 'sweep')
           + '<p class="wlab wi" style="--d:1">' + L(E('Wellbeing', 'العافية')) + '</p>'
           + lines(LN(['A long retirement', 'starts with your health'], ['التقاعد الطويل', 'يبدأ بصحتك']), 'hd', 2)
-          + '<p class="wsub wls wi" style="--d:4">' + L(E('Good habits lead to good years. Discover the most recommended, to enjoy a fulfilling retirement.', 'العادات الجيدة تصنع سنوات جميلة. اكتشف أكثرها توصية، لتستمتع بتقاعد مليء بالحياة.')) + '</p>'
+          + '<p class="wsub wls wi" style="--d:4">' + L(E('Good habits make good years. Here are three of the most recommended.', 'العادات الجيدة تصنع سنوات جميلة. إليك ثلاثاً من أكثرها توصية.')) + '</p>'
           + '<div class="deck wi" style="--d:5" data-ui role="group" aria-roledescription="carousel">' + W.map(function (w, i) { return '<div class="dcard" data-i="' + i + '" data-w="' + w[0] + '"><span class="dic"><svg viewBox="0 0 24 24">' + w[3] + '</svg></span><b>' + esc(L(w[1])) + '</b><p>' + esc(L(w[2])) + '</p></div>'; }).join('') + '</div>'
           + '<div class="ddots wi" style="--d:6" aria-hidden="true"><i></i><i></i><i></i></div>'
-          + '<p class="wsrc wi" style="--d:6">' + L(E('Sources: WHO guidelines on physical activity (2020) and on hypertension, CDC guidance on sleep. General information, not medical advice.', 'المصادر: إرشادات منظمة الصحة العالمية للنشاط البدني (2020) ولارتفاع ضغط الدم، وإرشادات مراكز السيطرة على الأمراض للنوم. معلومات عامة وليست نصيحة طبية.')) + '</p>'
+          + '<p class="wsrc wi" style="--d:6">' + L(E('Sources: WHO and CDC guidance. General information, not medical advice.', 'المصادر: إرشادات منظمة الصحة العالمية ومراكز السيطرة على الأمراض. معلومات عامة وليست نصيحة طبية.')) + '</p>'
           + '<button type="button" class="wbtn dk wcf wi" style="--d:7" data-ui data-a="wellok">' + L(E('Continue', 'متابعة')) + '</button>';
       },
       future: function () {
@@ -4243,12 +4427,12 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
       },
       post: function () {
         var y = Y(), n = st.xn || 5, r = rng(Math.min(35, y + n));
-        var chips = (st.dm && st.dm.length ? st.dm : [2]).slice(0, 2).map(function (k) { return DREAM[k]; }).concat([E(y + ' years of work', y + ' سنة من العمل'), SECT[st.sc == null ? 1 : st.sc]]).map(function (c, i) { return '<span style="--i:' + i + '">' + esc(L(c)) + '</span>'; }).join('');
+        var chips = (st.dm && st.dm.length ? st.dm : [2]).slice(0, 2).map(function (k) { return DREAM[k]; }).concat([E(y + ' years of work', y + ' سنة من العمل'), SECT[st.sc == null ? 2 : st.sc]]).map(function (c, i) { return '<span style="--i:' + i + '">' + esc(L(c)) + '</span>'; }).join('');
         return '<div class="wbg sand pst"></div>'
           + '<p class="wlab dk wi" style="--d:1">' + L(E('Your postcard', 'بطاقتك')) + '</p>'
           + '<div class="pcw"><div class="wpc" data-ui><div class="pci"><img alt="" draggable="false"><i class="dev"></i></div>'
           + '<p class="pct">' + L(E('Greetings from your future.', 'تحيات من مستقبلك.')) + '</p><p class="wpcs">' + L(E('You are already building this, one year at a time.', 'أنت تبني هذا بالفعل، سنة بعد سنة.')) + '</p>'
-          + '<div class="wpch">' + chips + '</div><div class="pst3"><span><small>' + L(E('Years so far', 'سنواتك حتى الآن')) + '</small><b>' + y + '</b></span><span><small>' + L(E('Share today', 'النسبة اليوم')) + '</small><b>' + P(y) + '%</b></span><span><small>' + L(n === 1 ? E('With 1 more year', 'مع سنة إضافية') : E('With ' + n + ' more years', 'مع ' + n + ' سنوات إضافية')) + '</small><b>' + L(E(r[0] + ' to ' + r[1] + '%', r[0] + ' إلى ' + r[1] + '%')) + '</b></span></div></div></div>'
+          + '<div class="wpch">' + chips + '</div><div class="pst3"><span><small>' + L(E('Years so far', 'سنواتك حتى الآن')) + '</small><b>' + y + '</b></span><span><small>' + L(E('Share today', 'النسبة اليوم')) + '</small><b>' + P(y) + '%</b></span><span><small>' + L(n === 1 ? E('With 1 more year', 'مع سنة إضافية') : E('With ' + n + ' more years', 'مع ' + n + ' سنوات إضافية')) + '</small><b>' + P(Math.min(35, y + n)) + '%</b></span></div></div></div>'
           + '<div class="pqr wi" style="--d:8"><span class="qrb">' + QRSVG.replace('width="220" height="220"', 'width="104" height="104"') + '</span><p>' + L(E('Scan to keep your postcard. This was a simulation, not advice. Insured with GPSSA? Ma’ashi shows your real figures.', 'امسح الرمز لتحتفظ ببطاقتك. كانت هذه محاكاة، وليست نصيحة. مشترك في الهيئة؟ تطبيق معاشي يُظهر أرقامك الفعلية.')) + '</p></div>'
           + '<button type="button" class="wbtn blk wide wi" style="--d:9" data-ui data-a="thanks">' + L(E('Thank you!', 'شكراً لك!')) + '</button>';
       }
@@ -4301,7 +4485,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     function runClock(ms, done) {
       cancelAnimationFrame(prog.raf); prog = { dur: ms, acc: 0, t0: performance.now(), paused: false, raf: 0, done: done };
       (function f(now) {
-        var p = prog; if (!p.paused) { p.acc += now - p.t0; } p.t0 = now;
+        var p = prog; if (!p.paused && !(tutOn && cur === 'fact')) { p.acc += now - p.t0; } p.t0 = now;
         var k = Math.min(1, p.acc / p.dur); setBar(k);
         if (k >= 1) { var d = p.done; p.done = null; if (d) d(); return; }
         p.raf = requestAnimationFrame(f);
@@ -4311,11 +4495,28 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     /* touching an interactive story gives the visitor a fresh 12 seconds before it moves on */
     function bumpClock() { if (prog.done) prog.acc = 0; }
     function next() { stopClock(); enter(st.i + 1); }
+    /* one way back, for the arrow and for a tap on the left */
+    var tutOn = false, tutSeen = false, tutT = 0;
+    function tutOpen() {
+      var t = q('.wtut'); tutOn = true; tutSeen = true;
+            q('.tt', t).textContent = L(E('Tap the right side to go on', 'انقر على الجهة اليمنى للمتابعة'));
+      q('.ts', t).textContent = L(E('The left side takes you back. Hold anywhere to pause.', 'الجهة اليسرى تعيدك. اضغط مطوّلاً في أي مكان للإيقاف.'));
+      q('.tok', t).textContent = L(E('Got it', 'فهمت'));
+      clearTimeout(tutT); tutT = setTimeout(function () { if (tutOn && cur === 'fact') t.classList.add('on'); }, 2600);
+    }
+    function tutClose(silent) { var t = q('.wtut'); if (!t) return; clearTimeout(tutT); tutOn = false; t.classList.remove('on'); if (!silent && prog) prog.t0 = performance.now(); }
+    function goBack() {
+      if (cur === 'intro') return;
+      if (cur === 'paths') { prevStep(); return; }
+      if (cur === 'well') { stopClock(); enter(idx('w_paths')); return; }
+      var bk = BRK[cur]; if (bk) { stopClock(); enter(idx(bk[1] ? 'w_' + BR[bk[0]][bk[1] - 1] : 'w_paths')); return; }
+      prevStep();
+    }
     function prevStep() { var p = STEPS[st.i - 1]; if (p && p.ws && p.ws !== 'post') { stopClock(); enter(st.i - 1); } }
 
     var ENTER = {
       intro: function (s) { var fresh = !door; if (fresh) door = createDoorScene(q('#wsScene')); if (door) door.resize(); if (door && !door.failed) { door.reset(!fresh); door.start(); } root.classList.remove('flying'); wash.style.opacity = 0; setBar(1); },
-      fact: function (s) { var n = q('.big .n', s); odoReset(n); later(function () { odo(n, '70', 1900); }, 380); },
+      fact: function (s) { var n = q('.big .n', s); odoReset(n); later(function () { odo(n, '70', 1900); }, 380); if (!tutSeen) tutOpen(); },
       years: function (s) {
         var lit = Math.min(35, yrs()), bd = qa('.bd', s), n = q('.rn .n', s); bd.forEach(function (b) { b.classList.remove('lit'); }); odoReset(n); n.innerHTML = '0';
         var t0 = performance.now() + 900;
@@ -4327,7 +4528,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
       extra: function (s) { if (st.xn == null) st.xn = 1; xPos = XN.indexOf(st.xn) >= 0 ? st.xn : 1; xFrom = xTo = xPos; xDraw(); xSync(true); },
       merge: function (s) { },
       well: function (s) { deckInit(s); },
-      mfact: function (s) { factRun(s, (Math.round((share(Math.min(35, Y() + 1)) - share(Y())) / 100 * SALm() / 10) * 10).toLocaleString('en-US')); }, ufact: function (s) { factRun(s, 5); }, xfact: function (s) { factRun(s, 35); }, afact: function (s) { factRun(s, st.sc === 0 ? 3 : 5); },
+      mfact: function (s) { factRun(s, (Math.round((share(Math.min(35, Y() + 1)) - share(Y())) / 100 * SALm() / 10) * 10).toLocaleString('en-US')); }, ufact: function (s) { factRun(s, 5); }, xfact: function (s) { factRun(s, 35); }, afact: function (s) { factRun(s, st.sc !== 2 ? 3 : 5); },
       mq: function (s) { qReset(s); }, uq: function (s) { qReset(s); }, aq: function (s) { qReset(s); },
       myears: function (s) { q('.byl', s).textContent = L(BS.mk ? E('With another pension fund', 'لدى صندوق تقاعد آخر') : E('With a GPSSA employer', 'لدى جهة مسجّلة في الهيئة')); chartOpen(s, 'merge'); },
       uyears: function (s) { q('.byl', s).textContent = L(E('Purchase service years', 'شراء سنوات الخدمة')); chartOpen(s, 'purchase'); },
@@ -4370,9 +4571,9 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
       var y2 = g.y + n, c = g.c;
       q('.a1', c).setAttribute('d', areaD(g, g.y, y2)); q('.c1', c).setAttribute('d', n > 1e-3 ? curve(g, g.y, y2) : '');
       var ex = g.X(y2), ey = g.Yp(share(y2)); ['.ed', '.eh'].forEach(function (k) { var d = q(k, c); d.setAttribute('cx', ex.toFixed(1)); d.setAttribute('cy', ey.toFixed(1)); });
-      var pin = q('.pin', c), pt = Math.round(share(Math.min(35, y2))) + '%', pw = 30 + pt.length * 21, px = Math.min(918 - pw, Math.max(118, ex - pw / 2)), py = ey - 82 < 4 ? ey + 30 : ey - 82;
+      var pin = q('.pin', c), pt = Math.round(share(Math.min(35, y2))) + '%', pw = 50 + pt.length * 29, px = Math.min(918 - pw, Math.max(118, ex - pw / 2)), py = ey - 98 < 4 ? ey + 34 : ey - 98;
       q('rect', pin).setAttribute('width', pw); q('rect', pin).setAttribute('x', px.toFixed(1)); q('rect', pin).setAttribute('y', py.toFixed(1));
-      var tt = q('text', pin); tt.setAttribute('x', (px + pw / 2).toFixed(1)); tt.setAttribute('y', (py + 36).toFixed(1)); tt.textContent = pt; pin.classList.toggle('on', n > .2);
+      var tt = q('text', pin); tt.setAttribute('x', (px + pw / 2).toFixed(1)); tt.setAttribute('y', (py + 43).toFixed(1)); tt.textContent = pt; pin.classList.toggle('on', n > .2);
     }
     function chartOpen(sc, b) {
       var g = chartGeo(sc, b), c = g.c, gr = '', H = g.H;
@@ -4384,15 +4585,15 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
       q('.a0', c).setAttribute('d', areaD(g, g.x0, g.y)); q('.c0', c).setAttribute('d', curve(g, g.x0, g.y));
       var tx = g.X(g.t).toFixed(1), px0 = g.X(g.y).toFixed(1), td = q('.td', c); td.setAttribute('x1', px0); td.setAttribute('x2', px0); td.setAttribute('y2', (H - 86));
       var ty = g.Yp(share(g.t)), dd = q('.tdd', c); dd.setAttribute('cx', tx); dd.setAttribute('cy', ty.toFixed(1));
-      var tp = q('.tdp', c), tw = 104, tpx = Math.max(118, +tx - tw / 2); q('rect', tp).setAttribute('x', tpx); q('rect', tp).setAttribute('y', (ty - 66).toFixed(1)); q('rect', tp).setAttribute('width', tw);
-      q('text', tp).setAttribute('x', tpx + tw / 2); q('text', tp).setAttribute('y', (ty - 38).toFixed(1)); q('text', tp).textContent = L(E('Today', 'اليوم'));
+      var tp = q('.tdp', c), tw = 164, tpx = Math.max(118, +tx - tw / 2); q('rect', tp).setAttribute('x', tpx); q('rect', tp).setAttribute('y', (ty - 78).toFixed(1)); q('rect', tp).setAttribute('width', tw);
+      q('text', tp).setAttribute('x', tpx + tw / 2); q('text', tp).setAttribute('y', (ty - 44).toFixed(1)); q('text', tp).textContent = L(E('Today', 'اليوم'));
       var fp = q('.fpl', c); fp.setAttribute('x', 888); fp.setAttribute('y', (g.Yp(100) - 14).toFixed(1)); fp.textContent = L(E('Full pension', 'المعاش الكامل'));
       td.setAttribute('y1', g.Yp(share(g.y)).toFixed(1));
       /* extend: the plan is marked where the blue begins */
       var pl = q('.plp', c), pd = q('.pld', c), ext = g.y !== g.t; c.classList.toggle('hasplan', ext);
-      if (ext) { var py0 = g.Yp(share(g.y)), pw0 = 150, ppx = +px0 - pw0 / 2; pd.setAttribute('cx', px0); pd.setAttribute('cy', py0.toFixed(1));
-        q('rect', pl).setAttribute('x', ppx.toFixed(1)); q('rect', pl).setAttribute('y', (py0 + 58).toFixed(1)); q('rect', pl).setAttribute('width', pw0);
-        q('text', pl).setAttribute('x', px0); q('text', pl).setAttribute('y', (py0 + 86).toFixed(1)); q('text', pl).textContent = L(E('Your plan', 'خطتك')); }
+      if (ext) { var py0 = g.Yp(share(g.y)), pw0 = 216, ppx = +px0 - pw0 / 2; pd.setAttribute('cx', px0); pd.setAttribute('cy', py0.toFixed(1));
+        q('rect', pl).setAttribute('x', ppx.toFixed(1)); q('rect', pl).setAttribute('y', (py0 + 54).toFixed(1)); q('rect', pl).setAttribute('width', pw0);
+        q('text', pl).setAttribute('x', px0); q('text', pl).setAttribute('y', (py0 + 88).toFixed(1)); q('text', pl).textContent = L(E('Your plan', 'خطتك')); }
       /* the years already built draw in first, then the choice grows out of them */
       var a0 = q('.a0', c), c0 = q('.c0', c); a0.setAttribute('d', ''); c0.setAttribute('d', ''); c.classList.remove('lit');
       later(function () { anim(1100, function (e) { var xe = g.x0 + (g.y - g.x0) * Math.max(.001, e); a0.setAttribute('d', areaD(g, g.x0, xe)); c0.setAttribute('d', curve(g, g.x0, xe)); }, function () { c.classList.add('lit'); }, ease.out); }, 350);
@@ -4413,15 +4614,15 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     function chartSync(sc, b, zero) {
       var y = base(b), n = zero ? 0 : BS[CH[b].key], S = SALm(), p0 = share(y), p1 = share(Math.min(35, y + n)), pen = p1 / 100 * S;
       odo(q('.v1 .n', sc), k100(pen), 900);
-      q('.e1', sc).textContent = L(E('Every month · ' + Math.round(p1) + '% of salary', 'شهرياً · ' + Math.round(p1) + '% من الراتب'));
+      q('.e1', sc).textContent = L(E('Monthly · ' + Math.round(p1) + '% of salary', 'شهرياً · ' + Math.round(p1) + '% من الراتب'));
       var l2 = q('.l2', sc), u2 = q('.u2', sc), e2 = q('.e2 span', sc), v2 = q('.v2 .n', sc);
       if (b === 'purchase') {
         var cost = n * 12 * S * .2, add = (p1 - p0) / 100 * S * 12;
         l2.textContent = L(E('Service cost', 'تكلفة الخدمة')); u2.textContent = L(E('AED', 'درهم')); odo(v2, k100(cost), 900);
-        e2.textContent = zero ? '' : add > 0 ? L(E('Repaid in about ' + Math.max(1, Math.round(cost / add)) + ' years', 'تُسترد في نحو ' + Math.max(1, Math.round(cost / add)) + ' سنوات')) : L(E('Already at 100%', 'عند 100% بالفعل'));
+        e2.textContent = zero ? '' : add > 0 ? L(E('Repaid in ~' + Math.max(1, Math.round(cost / add)) + ' years', 'تُسترد في نحو ' + Math.max(1, Math.round(cost / add)) + ' سنوات')) : L(E('Already at 100%', 'عند 100% بالفعل'));
       } else {
         l2.textContent = L(E('Pension vs salary', 'المعاش مقابل الراتب')); u2.textContent = ''; odo(v2, Math.round(p1) + '%', 900);
-        e2.textContent = zero ? '' : b === 'extend' ? L(E('+' + Math.round(p1 - p0) + '% on your plan', '+' + Math.round(p1 - p0) + '% على خطتك')) : L(E('+' + Math.round(p1 - p0) + '% than today', '+' + Math.round(p1 - p0) + '% عن اليوم'));
+        e2.textContent = zero ? '' : b === 'extend' ? L(E('+' + Math.round(p1 - p0) + '% vs your plan', '+' + Math.round(p1 - p0) + '% مقارنة بخطتك')) : L(E('+' + Math.round(p1 - p0) + '% vs today', '+' + Math.round(p1 - p0) + '% مقارنة باليوم'));
       }
       q('.e2', sc).classList.toggle('on', !zero);
     }
@@ -4596,10 +4797,9 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
       var lh = myRange(), pm = (lh[0] + lh[1]) / 2, sp = spendM(), d = Math.round(Math.abs(sp - pm) / sp * 100), less = pm < sp;
       var p = q('.dx', sc);
       var spf = sp.toLocaleString('en-US');
-      p.innerHTML = less ? LN('<b>' + d + '% less</b> than your ' + spf + '/mo spending', '<b>أقل بنسبة ' + d + '%</b> من إنفاقك الشهري البالغ ' + spf)
-        : LN('<b>' + d + '% more</b> than your ' + spf + '/mo spending', '<b>أكثر بنسبة ' + d + '%</b> من إنفاقك الشهري البالغ ' + spf);
-      var ic = q('.dlt .wsp', sc); ic.classList.toggle('ok', less); ic.classList.toggle('no', !less);
-      q('i', ic).innerHTML = less ? '<svg viewBox="0 0 24 24"><path d="M6 12.5l4 4 8-9"/></svg>' : '<svg viewBox="0 0 24 24"><path d="M7 7l10 10M17 7L7 17"/></svg>';
+      var cov = Math.round(pm / sp * 100);
+      p.innerHTML = less ? LN('That pension amount covers <b>about ' + cov + '% of the lifestyle you have today.</b>', 'هذا المعاش يغطي <b>نحو ' + cov + '% من نمط الحياة الذي تعيشه اليوم.</b>')
+        : LN('That pension amount allows you to <b>keep the lifestyle standard you already have.</b>', 'هذا المعاش يتيح لك <b>الحفاظ على مستوى المعيشة الذي تعيشه اليوم.</b>');
       if (tick) { p.classList.remove('tk'); void p.offsetWidth; p.classList.add('tk'); }
     }
     function myRange() { return noSal() ? lohiS(25000) : lohi(); }
@@ -4636,7 +4836,9 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
 
     /* ---------- clicks, taps, holds ---------- */
     root.addEventListener('click', function (e) {
-      var b = e.target.closest('[data-a], [data-x], [data-s], [data-p], [data-q], [data-c], .wx'); if (!b) return; e.stopPropagation();
+      if (e.target.closest('.wtut')) { e.stopPropagation(); tutClose(); return; }
+      var b = e.target.closest('[data-a], [data-x], [data-s], [data-p], [data-q], [data-c], .wx, .wbk'); if (!b) return; e.stopPropagation();
+      if (b.classList.contains('wbk')) { if (BRK[cur]) { stopClock(); clearTimers(); enter(idx('w_paths')); } return; }
       if (b.classList.contains('wx')) { stopClock(); clearTimers(); st.done = {}; st.pend = null; enter(0); return; }
       if (b.hasAttribute('data-p')) { pickPath(b); return; }
       if (b.hasAttribute('data-q')) { qPick(b); return; }
@@ -4670,7 +4872,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
       if (performance.now() - h.t > 350 || !on || root.classList.contains('flying')) return;
       var r = stage.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, rtl = st.lang === 'ar';
       var fwd = rtl ? x < .28 : x > .72, bwd = rtl ? x > .72 : x < .28;
-      if (cur === 'paths') { if (bwd) prevStep(); return; }
+      if (cur === 'paths' || cur === 'well') { if (bwd) goBack(); return; }
       var bk = BRK[cur];
       if (bk) { if (bwd) { stopClock(); enter(idx(bk[1] ? 'w_' + BR[bk[0]][bk[1] - 1] : 'w_paths')); } else if (fwd && DUR[cur]) next(); return; }
       if (fwd && cur !== 'intro' && cur !== 'post') { next(); } else if (bwd) prevStep();
@@ -4689,7 +4891,7 @@ button.glass:active::after { opacity: .9; transform: scale(1.1); transition: opa
     /* ---------- hooks for the step engine ---------- */
     function set(s) {
       if (!s.ws) {
-        stopClock(); if (s.id === 'attract') { st.xn = null; built = null; BS.mk = 0; BS.mn = 5; BS.un = 5; BS.xn = 5; BS.ap = 1; BS.xp = 25; st.done = {}; st.pend = null; }
+        stopClock(); if (s.id === 'attract') { st.xn = null; built = null; tutSeen = false; tutClose(true); BS.mk = 0; BS.mn = 5; BS.un = 5; BS.xn = 5; BS.ap = 1; BS.xp = 25; st.done = {}; st.pend = null; }
         if (on) { on = false; if (door) door.stop(); portal(false, function () { qa('.wsc').forEach(function (x) { x.classList.remove('cur', 'run', 'lv'); }); cur = null; }); }
         stage.classList.remove('wsstep'); return;
       }
